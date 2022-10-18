@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Nprogress from 'nprogress'
+
 import 'nprogress/nprogress.css'
 
 export default {
@@ -52,64 +52,7 @@ export default {
     }
   },
   methods: {
-    submitLogin() {
-      this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          Nprogress.start()
-          this.loginLoad = true
-          let _this = this
-          if (_this.type === 'dormitoryAdmin') {
-            axios.get('http://localhost:9090/dormitoryAdmin/login', {params: _this.loginForm}).then(function (resp) {
-              _this.loginLoad = false
-              Nprogress.done()
-              if (resp.data.code === -1) {
-                _this.$alert('用户名不存在', '错误提示', {
-                  confirmButtonText: '确定'
-                })
-              }
-              if (resp.data.code === -2) {
-                _this.$alert('密码错误', '错误提示', {
-                  confirmButtonText: '确定'
-                })
-              }
-              if (resp.data.code === 0) {
-                //跳转到SystemAdmin
-                //展示当前登录用户信息
-                localStorage.setItem('dormitoryAdmin', JSON.stringify(resp.data.data));
-                _this.$router.replace({path: '/dormitoryAdmin'})
-              }
-            })
-          }
-          if (_this.type === 'systemAdmin') {
-            axios.get('http://localhost:9090/systemAdmin/login', {params: _this.loginForm}).then(function (resp) {
-              _this.loginLoad = false
-              Nprogress.done()
-              if (resp.data.code === -1) {
-                _this.$alert('用户名不存在', '错误提示', {
-                  confirmButtonText: '确定'
-                })
-              }
-              if (resp.data.code === -2) {
-                _this.$alert('密码错误', '错误提示', {
-                  confirmButtonText: '确定'
-                })
-              }
-              if (resp.data.code === 0) {
-                //跳转到SystemAdmin
-                //展示当前登录用户信息
-                localStorage.setItem('systemAdmin', JSON.stringify(resp.data.data));
-                _this.$router.replace({path: '/systemAdmin'})
-              }
-            })
-          }
-
-        } else {
-          this.$message.error('请输入所有字段');
-          // console.log('error submit!!');
-          return false;
-        }
-      });
-    }
+    
   }
 }
 </script>
